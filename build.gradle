@@ -1,0 +1,37 @@
+plugins {
+	id 'java'
+	id 'java-library'
+	id 'war'	
+	
+}
+repositories {    
+    mavenCentral    ()
+}
+sourceSets{
+	main {
+		java{
+			srcDir	'src'
+		}
+	}
+	test {
+		java {
+			srcDir 'test'
+		}
+	}
+}
+task deployToTomcat(type: Copy) {
+    from war.archivePath
+    into "${tomcat_home}/webapps"
+}
+task printProps {
+    doLast {
+        
+        println tomcat_home
+        
+    }
+}
+webAppDirName =  'WebContent'
+dependencies{
+	compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+	compile group: 'javax.servlet', name: 'jsp-api', version: '2.0'
+}
